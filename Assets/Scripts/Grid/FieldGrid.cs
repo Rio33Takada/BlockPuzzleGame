@@ -1,0 +1,35 @@
+using UnityEngine;
+
+public class FieldGrid
+{
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+
+    public FieldCell[,] Grid { get; private set; }
+
+    public FieldGrid(StageData data)
+    {
+        Width = data.width;
+        Height = data.height;
+
+        Grid = new FieldCell[Width, Height];
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                Grid[x, y] = new FieldCell(x, y);
+            }
+        }
+    }
+
+    public FieldCell GetCell(int x, int y)
+    {
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
+        {
+            return null;
+        }
+
+        return Grid[x, y];
+    }
+}
