@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDatabase
   database:
   - id: 1
-    data: {fileID: 0}
+    data: {fileID: 11400000, guid: 79d54f57ef5a1814eb2ef7ef461cbcec, type: 2}

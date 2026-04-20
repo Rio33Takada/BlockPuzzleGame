@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7777aecac061c04fbd76e03f6deac8e, type: 3}
-  m_Name: Stage1
-  m_EditorClassIdentifier: Assembly-CSharp::StageData
-  width: 15
-  height: 15
-  enemySpawnEntries:
-  - id: 1
-    pozX: 0
-    pozY: 0
+  m_Script: {fileID: 11500000, guid: e79851737bc03ef478c5633c43cbf0d0, type: 3}
+  m_Name: StartBattleState
+  m_EditorClassIdentifier: Assembly-CSharp::StartBattleState
+  nextState: {fileID: 11400000, guid: b0ca3dc45254ea747b2ecdbad9146480, type: 2}

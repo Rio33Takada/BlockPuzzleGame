@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FieldGrid
 {
+    private readonly float cellSize = 1;
+    public float CellSize => cellSize;
     public int Width { get; private set; }
     public int Height { get; private set; }
 
@@ -31,5 +34,17 @@ public class FieldGrid
         }
 
         return Grid[x, y];
+    }
+
+    public bool CanPlaceObject(IEnumerable<Vector2Int> positions)
+    {
+        foreach(var pos in positions)
+        {
+            var cell = GetCell(pos.x, pos.y);
+            if (cell == null) return false;
+
+            if(cell.IsOccupied) return false;
+        }
+        return true;
     }
 }

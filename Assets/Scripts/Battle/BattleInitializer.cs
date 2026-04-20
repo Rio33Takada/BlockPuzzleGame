@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class BattleInitializer
 {
-
     public BattleInitializer
         (
+        ObjectController objController,
         UIController uiController,
         StageData stageData,
         CharaDatabase charaDatabase,
@@ -14,25 +14,34 @@ public class BattleInitializer
         BattleContext context
         )
     {
+        #region DataCreation
+        // ファクトリ生成.
+        var charaFactory = new BattleCharaFactory(charaDatabase);
+        context.SetCharaFactory(charaFactory);
+        var enemyFactory = new BattleEnemyFactory(enemyDatabase);
+        context.SetEnemyFactory(enemyFactory);
+
         // グリッドデータ生成.
         context.SetFieldGrid(CreateFieldGrid(stageData));
         context.SetBoardGrid(CreateBoardGrid(stageData));
 
         // キャラデータ生成.
-        var charaFactory = new BattleCharaFactory(charaDatabase);
         context.SetPlayerTeam(CreateTeamChara(playerData, charaFactory));
+
+        #endregion
+        #region ViewGeneration
+        // データ設定.
+        objController.SetData(context);
+
+        // グリッド見た目生成.
+        foreach(var cell in context.FieldGrid.Grid)
+        {
+            objController.CreateFieldGirdCell(cell);
+        }
 
         // キャラUIパネル生成.
         uiController.CreateCharaUIPanel(context.PlayerTeam);
-
-        // 敵データ生成.
-        var enemyFactory = new BattleEnemyFactory(enemyDatabase);
-
-        // 敵スポーン(この処理はもう少しあとに回すべき).
-        foreach(var enemy in SpawnEnemies(context, stageData, enemyFactory))
-        {
-            context.AddEnemy(enemy);
-        }
+        #endregion
     }
 
     FieldGrid CreateFieldGrid(StageData data)
@@ -55,24 +64,5 @@ public class BattleInitializer
         }
 
         return team;
-    }
-
-    List<BattleEnemy> SpawnEnemies(BattleContext context, StageData data, BattleEnemyFactory factory)
-    {
-        var enemies = new List<BattleEnemy>();
-        foreach(var entry in data.enemySpawnEntries)
-        {
-            var enemy = factory.CreateEnemy(entry.id);
-            foreach(var pos in enemy.GetBodyPositions(entry.pozX, entry.pozY))
-            {
-                if(context.FieldGrid.GetCell(pos.x, pos.y).IsOccupied)
-                {
-                    break;
-                }
-                enemies.Add(enemy);
-            }
-        }
-
-        return enemies;
     }
 }

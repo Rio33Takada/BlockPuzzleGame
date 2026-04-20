@@ -1,6 +1,6 @@
 public interface IGameState
 {
-    void Enter();
+    void Enter(BattleContext context);
     void Update();
     void Exit();
 }
